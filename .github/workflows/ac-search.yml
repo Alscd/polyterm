@@ -1,0 +1,33 @@
+name: AC Search Geneva
+
+on:
+  push:
+    branches: [ "claude/geneva-ac-search-playwright-bfrfir" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Playwright
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm i playwright@1.56.1 --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Run scout
+        run: node scripts/ac-search/check.mjs
+      - name: Upload screenshots + json
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ac-search-results
+          path: scripts/ac-search/out/**
+          if-no-files-found: warn
