@@ -11,7 +11,7 @@ permissions:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,12 +22,12 @@ jobs:
           npm init -y >/dev/null 2>&1
           npm i playwright@1.56.1 --no-audit --no-fund
           npx playwright install --with-deps chromium
-      - name: Run scout pass 2
-        run: node scripts/ac-search/check2.mjs
+      - name: Run scout pass 3
+        run: node scripts/ac-search/check3.mjs
       - name: Upload screenshots + json
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ac-search-results-p2
+          name: ac-search-results-p3
           path: scripts/ac-search/out/**
           if-no-files-found: warn
