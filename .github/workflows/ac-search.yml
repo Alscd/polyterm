@@ -3,6 +3,7 @@ name: AC Search Geneva
 on:
   push:
     branches: [ "claude/geneva-ac-search-playwright-bfrfir" ]
+    paths: [ "scripts/ac-search/check18.mjs", ".github/workflows/ac-search.yml" ]
   workflow_dispatch:
 
 permissions:
@@ -11,7 +12,7 @@ permissions:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 14
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,5 +23,5 @@ jobs:
           npm init -y >/dev/null 2>&1
           npm i playwright@1.56.1 --no-audit --no-fund
           npx playwright install --with-deps chromium
-      - name: Run scout pass 17
-        run: node scripts/ac-search/check17.mjs
+      - name: Run scout pass 18
+        run: node scripts/ac-search/check18.mjs
